@@ -2,7 +2,7 @@
 
 {% if vhost.www_redir %}
 www.{{ vhost.hostname }} {
-    import ../snippets/tls.conf
+    #import ../snippets/tls.conf
     redir https://{{ vhost.hostname }}{uri} permanent
 }
 {% endif %}
