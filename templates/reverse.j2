@@ -2,17 +2,23 @@
 
 {% if vhost.www_redir %}
 www.{{ vhost.hostname }} {
-    #import ../snippets/tls.conf
-    redir https://{{ vhost.hostname }}{uri} permanent
+  # dunno why this was here
+  # import ../snippets/tls.conf
+  redir https://{{ vhost.hostname }}{uri} permanent
 }
 {% endif %}
 
 {{ vhost.hostname }} {
-  import ../snippets/tls.conf
+  # dunno why this was here
+  # import ../snippets/tls.conf
   {{ 'encode zstd gzip' if vhost.compress else '' }}
+  {{ 'php_fastcgi unix//run/php/php7.4-fpm.sock' if vhost.php else '' }}
+
   log {
     output file {{ caddy_log_path }}/{{ vhost.hostname }}.log {
-      # roll_disabled
+      roll_size 10mb
+      roll_keep 20
+      roll_keep_for 720h
     }
   }
 
